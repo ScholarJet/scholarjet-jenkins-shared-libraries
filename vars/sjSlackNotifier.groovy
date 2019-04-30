@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String buildResult, String threadId) {
+def call(String buildResult, String threadId = null) {
   def slackResponse = null
 
   if ( buildResult == "STARTED") {
