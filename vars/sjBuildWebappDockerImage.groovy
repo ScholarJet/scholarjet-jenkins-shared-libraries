@@ -24,7 +24,10 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key')
                   ]) {
      script {
-       send_grid_key = getStringCredential("${environmentSufix}_send_grid_key", true)
+       send_grid_key = getStringCredential("${environmentSufix}_send_grid_key" as String, true)
+
+       sh "echo \"------------- Got key, $send_grid_key\""
+
        app = docker.build ("scholarjet.azurecr.io/scholarjet-webapp", '''--build-arg aws_access=$aws_access  \
              --build-arg aws_default_bucket=$s3_bucket \
              --build-arg aws_thumbnail_host=$aws_thumbnail_host \
