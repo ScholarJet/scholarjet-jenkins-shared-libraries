@@ -1,9 +1,9 @@
 #!/usr/bin/env groovy
 
-def call(String environmentSufix, boolean pushToRegistry, String tagName) {
+def call(String environmentSufix, String environment, boolean pushToRegistry, String tagName) {
   withCredentials([file(credentialsId: "${environmentSufix}_firebase_service_account_key", variable: 'serviceAccountKey_json')]) {
                sh "cp $serviceAccountKey_json src/main/resources/serviceAccountKey.json"
-               sh "mvn clean install -Dmaven.test.skip=true -Dapp.build.buildNumber=${env.BUILD_NUMBER} -Dapp.environment=${ENV} -Dapp.commit=${env.GIT_COMMIT}"
+               sh "mvn clean install -Dmaven.test.skip=true -Dapp.build.buildNumber=${env.BUILD_NUMBER} -Dapp.environment=${environment} -Dapp.commit=${env.GIT_COMMIT}"
   }
 
   withCredentials([string(credentialsId: "${environmentSufix}_aws_access", variable: 'aws_access'),
