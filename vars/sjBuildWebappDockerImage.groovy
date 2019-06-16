@@ -21,8 +21,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "mailchimp_api_key", variable: 'mailchimp_api_key'),
                   string(credentialsId: "mailchimp_list_id", variable: 'mailchimp_list_id'),
                   string(credentialsId: "${environmentSufix}_firebase_database_url", variable: 'firebase_database_url'),
-                  string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key'),
-                  string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
+                  string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key')
                   ]) {
      script {
        send_grid_key = getStringCredential("${environmentSufix}_send_grid_key", true)
