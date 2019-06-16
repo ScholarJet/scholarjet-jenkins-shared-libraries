@@ -24,7 +24,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key')
                   ]) {
      script {
-       send_grid_key = getStringCredential("${environmentSufix}_send_grid_key" as String, true)
+       String send_grid_key = getStringCredential("${environmentSufix}_send_grid_key" as String, true)
 
        sh "echo \"------------- Got key, $send_grid_key\""
 
