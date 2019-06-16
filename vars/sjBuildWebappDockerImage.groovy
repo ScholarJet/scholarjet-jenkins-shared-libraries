@@ -56,14 +56,14 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
 }
 
 def String getStringCredential(String credentialKey, Boolean optional) {
-  try {
-    withCredentials([string(credentialsId: credentialKey, variable: 'credentialValue')]) {
-     $credentialValue
-   }
-  } catch (Exception ex) {
-    if (!optional) {
-      throw ex
+    try {
+        withCredentials([string(credentialsId: credentialKey, variable: 'credentialValue')]) {
+            return $credentialValue
+        }
+    } catch (Exception ex) {
+        if (!optional) {
+            throw ex
+        }
+        return null
     }
-    null
-  }
 }
