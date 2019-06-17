@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String environmentSufix, String environment, boolean pushToRegistry, String tagName, String frontEndHost) {
+def call(String environmentSufix, String environment, boolean pushToRegistry, String tagName, String front_end_host) {
   withCredentials([file(credentialsId: "${environmentSufix}_firebase_service_account_key", variable: 'serviceAccountKey_json')]) {
                sh "cp $serviceAccountKey_json src/main/resources/serviceAccountKey.json"
                sh "mvn clean install -Dmaven.test.skip=true -Dapp.build.buildNumber=${env.BUILD_NUMBER} -Dapp.environment=${environment} -Dapp.commit=${env.GIT_COMMIT}"
@@ -25,7 +25,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
                   ]) {
      script {
-         app = docker.build ("scholarjet.azurecr.io/scholarjet-webapp", '''--build-arg aws_access=$aws_access  \
+       app = docker.build ("scholarjet.azurecr.io/scholarjet-webapp", '''--build-arg aws_access=$aws_access  \
              --build-arg aws_default_bucket=$s3_bucket \
              --build-arg aws_thumbnail_host=$aws_thumbnail_host \
              --build-arg aws_secret=$aws_secret  \
@@ -35,9 +35,8 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg mailgun_url=$mailgun_url \
              --build-arg mailchimpApiKey=$mailchimp_api_key \
              --build-arg mailchimpListId=$mailchimp_list_id \
-             --build-arg postToMailChimp="true" '''
-                 + " --build-arg front_end_host=${frontEndHost} "
-                 + '''
+             --build-arg postToMailChimp="true" \
+             --build-arg front_end_host=$front_end_host \
              --build-arg db_user=$db_user \
              --build-arg db_host=$db_host \
              --build-arg db_password=$db_password \
