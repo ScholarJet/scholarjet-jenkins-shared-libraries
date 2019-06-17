@@ -60,10 +60,12 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
 
 def String getStringCredential(String credentialKey, Boolean optional) {
     sh "echo \"------------- Getting creds with key: $credentialKey \""
+    String credentialResult = null
+
     try {
         withCredentials([string(credentialsId: credentialKey, variable: 'credentialValue')]) {
-            sh "echo \"------------- Got key, $credentialValue\""
-            return $credentialValue
+            sh "echo \"------------- Got key, $credentialValue - ${env.credentialValue}\""
+            credentialResult = $credentialValue
         }
     } catch (Exception ex) {
         if (!optional) {
@@ -71,6 +73,7 @@ def String getStringCredential(String credentialKey, Boolean optional) {
         }
 
         sh "echo \"------------- No key, returning null\""
-        return null
     }
+
+    return credentialResult
 }
