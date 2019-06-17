@@ -21,13 +21,10 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "mailchimp_api_key", variable: 'mailchimp_api_key'),
                   string(credentialsId: "mailchimp_list_id", variable: 'mailchimp_list_id'),
                   string(credentialsId: "${environmentSufix}_firebase_database_url", variable: 'firebase_database_url'),
-                  string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key')
+                  string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key'),
+                  string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
                   ]) {
      script {
-       String send_grid_key = getStringCredential("${environmentSufix}_send_grid_key" as String, true)
-
-       sh "echo \"------------- Got key, $send_grid_key\""
-
        app = docker.build ("scholarjet.azurecr.io/scholarjet-webapp", '''--build-arg aws_access=$aws_access  \
              --build-arg aws_default_bucket=$s3_bucket \
              --build-arg aws_thumbnail_host=$aws_thumbnail_host \
@@ -56,24 +53,4 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
          }
      }
   }
-}
-
-def String getStringCredential(String credentialKey, Boolean optional) {
-    sh "echo \"------------- Getting creds with key: $credentialKey \""
-    String credentialResult = null
-
-    try {
-        withCredentials([string(credentialsId: credentialKey, variable: 'credentialValue')]) {
-            sh "echo \"------------- Got key, $credentialValue - ${env.credentialValue}\""
-            credentialResult = $credentialValue
-        }
-    } catch (Exception ex) {
-        if (!optional) {
-            throw ex
-        }
-
-        sh "echo \"------------- No key, returning null\""
-    }
-
-    return credentialResult
 }
