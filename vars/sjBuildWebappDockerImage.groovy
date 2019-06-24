@@ -22,6 +22,8 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "mailchimp_list_id", variable: 'mailchimp_list_id'),
                   string(credentialsId: "${environmentSufix}_firebase_database_url", variable: 'firebase_database_url'),
                   string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key'),
+                  string(credentialsId: "kibana_user", variable: 'kibana_user'),
+                  string(credentialsId: "kibana_password", variable: 'kibana_password'),
                   string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
                   ]) {
      script {
@@ -44,6 +46,8 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg firebase_database_url=$firebase_database_url \
              --build-arg APPLICATION_INSIGHTS_IKEY=$app_insights_key \
              --build-arg jwt_key=$jwt_key \
+             --build-arg kibanaUser=$kibana_user \
+             --build-arg kibanaPassword=$kibana_password \
              --build-arg sendGridKey=$send_grid_key \
              .''')
          if (pushToRegistry) {
