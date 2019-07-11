@@ -42,7 +42,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg db_user=$db_user \
              --build-arg db_host=$db_host \
              --build-arg db_password=$db_password \
-             --build-arg environment=$environment \
+             --build-arg environment=$ENV \
              --build-arg firebase_database_url=$firebase_database_url \
              --build-arg APPLICATION_INSIGHTS_IKEY=$app_insights_key \
              --build-arg jwt_key=$jwt_key \
