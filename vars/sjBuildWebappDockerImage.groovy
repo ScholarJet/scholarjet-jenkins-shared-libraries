@@ -42,9 +42,11 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg front_end_host=$front_end_host \
              --build-arg db_user=$db_user \
              --build-arg db_host=$db_host \
-             --build-arg db_password=$db_password \
-             --build-arg environment=${ (environment != null) ? environment.toLowerCase() : "development" } \
-             --build-arg firebase_database_url=$firebase_database_url \
+             --build-arg db_password=$db_password '''
+               +
+               " --build-arg environment=${ (environment != null) ? environment.toLowerCase() : "development" } "
+               +
+               ''' --build-arg firebase_database_url=$firebase_database_url \
              --build-arg APPLICATION_INSIGHTS_IKEY=$app_insights_key \
              --build-arg jwt_key=$jwt_key \
              --build-arg kibanaUser=$kibana_user \
