@@ -27,7 +27,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
                   ]) {
      script {
-       appEnv = (environment != null) ? environment.toLowerCase() : 'development'
+//       appEnv = (environment != null) ? environment.toLowerCase() : 'development'
        app = docker.build ("scholarjet.azurecr.io/scholarjet-webapp", '''--build-arg aws_access=$aws_access  \
              --build-arg aws_default_bucket=$s3_bucket \
              --build-arg aws_thumbnail_host=$aws_thumbnail_host \
@@ -43,7 +43,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg db_user=$db_user \
              --build-arg db_host=$db_host \
              --build-arg db_password=$db_password \
-             --build-arg environment=$appEnv \
+             --build-arg environment=${ (environment != null) ? environment.toLowerCase() : "development" } \
              --build-arg firebase_database_url=$firebase_database_url \
              --build-arg APPLICATION_INSIGHTS_IKEY=$app_insights_key \
              --build-arg jwt_key=$jwt_key \
