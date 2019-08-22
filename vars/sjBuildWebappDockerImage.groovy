@@ -24,6 +24,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
                   string(credentialsId: "${environmentSufix}_jwt_key", variable: 'jwt_key'),
                   string(credentialsId: "kibana_user", variable: 'kibana_user'),
                   string(credentialsId: "kibana_password", variable: 'kibana_password'),
+                  string(credentialsId: "elastic_apm_token", variable: 'elastic_apm_token'),
                   string(credentialsId: "${environmentSufix}_send_grid_key", variable: 'send_grid_key')
                   ]) {
      script {
@@ -51,6 +52,7 @@ def call(String environmentSufix, String environment, boolean pushToRegistry, St
              --build-arg jwt_key=$jwt_key \
              --build-arg kibanaUser=$kibana_user \
              --build-arg kibanaPassword=$kibana_password \
+             --build-arg elasticSearchApmToken=$elastic_apm_token \
              --build-arg sendGridKey=$send_grid_key \
              .''')
          if (pushToRegistry) {
